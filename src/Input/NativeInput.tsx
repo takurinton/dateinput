@@ -1,5 +1,12 @@
 import dayjs, { Dayjs } from "dayjs";
-import { memo, useCallback, useMemo, useState } from "react";
+import {
+  KeyboardEvent,
+  memo,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import styled from "styled-components";
 import { isValidDate } from "./utils";
 import { Selected, Year, Month, Day } from "./types";
@@ -80,6 +87,9 @@ export const NativeInputRange = ({
   };
   onChange: (value: { startDate: Dayjs; endDate: Dayjs }) => void;
 }) => {
+  const startRef = useRef<HTMLInputElement>(null);
+  const endRef = useRef<HTMLInputElement>(null);
+
   const handleStartDateChange = (newDate: Dayjs) => {
     onChange({ ...date, startDate: newDate });
   };
@@ -87,15 +97,17 @@ export const NativeInputRange = ({
     onChange({ ...date, endDate: newDate });
   };
 
-  const handleStartKeyDown = (k: AllowedKeys) => {
+  const handleStartKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    const k = event.key as AllowedKeys;
     if (k === AllowedKeys.ArrowRight) {
-      // TODO: focus change
+      endRef.current?.focus();
     }
   };
 
-  const handleEndKeyDown = (k: AllowedKeys) => {
+  const handleEndKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    const k = event.key as AllowedKeys;
     if (k === AllowedKeys.ArrowLeft) {
-      // TODO: focus change
+      startRef.current?.focus();
     }
   };
 
@@ -114,15 +126,19 @@ export const NativeInputRange = ({
   return (
     <>
       <NativeInputContainer
+        ref={startRef}
         type="date"
         valid={validStart}
         value={`${selectedStart.y}-${selectedStart.m}-${selectedStart.d}`}
+        onKeyDown={handleStartKeyDown}
         onChange={handleStartChange}
       />
       <NativeInputContainer
+        ref={endRef}
         type="date"
         valid={validEnd}
         value={`${selectedEnd.y}-${selectedEnd.m}-${selectedEnd.d}`}
+        onKeyDown={handleEndKeyDown}
         onChange={handleEndChange}
       />
     </>
