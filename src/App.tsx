@@ -2,13 +2,17 @@ import dayjs from "dayjs";
 import { createTheme, Spacer, ThemeProvider, Typography } from "ingred-ui";
 import { useState } from "react";
 import { Input, InputRange } from "./Input";
-import { NativeInput } from "./Input/NativeInput";
+import { NativeInput, NativeInputRange } from "./Input/NativeInput";
 
 function App() {
   const theme = createTheme();
   const [date, setDate] = useState(dayjs());
   const [nativeInputDate, setNativeInputDate] = useState(dayjs());
   const [dateRange, setDateRange] = useState({
+    startDate: dayjs(),
+    endDate: dayjs().add(1, "week"),
+  });
+  const [nativeDateRange, setNativeDateRange] = useState({
     startDate: dayjs(),
     endDate: dayjs().add(1, "week"),
   });
@@ -30,6 +34,12 @@ function App() {
         - {dateRange.endDate.format("YYYY-MM-DD")}
       </Typography>
       <InputRange date={dateRange} onChange={setDateRange} />
+      <Typography weight="bold">
+        selected(native input range):{" "}
+        {nativeDateRange.startDate.format("YYYY-MM-DD")} -{" "}
+        {nativeDateRange.endDate.format("YYYY-MM-DD")}
+      </Typography>
+      <NativeInputRange date={dateRange} onChange={setNativeDateRange} />
     </ThemeProvider>
   );
 }

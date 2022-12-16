@@ -3,6 +3,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import { isValidDate } from "./utils";
 import { Selected, Year, Month, Day } from "./types";
+import { AllowedKeys } from "./constants";
 
 type Props = {
   date: Dayjs;
@@ -66,5 +67,64 @@ export const NativeInput = ({ date, onChange }: Props) => {
       value={`${selected.y}-${selected.m}-${selected.d}`}
       onChange={handleDateChange}
     />
+  );
+};
+
+export const NativeInputRange = ({
+  date,
+  onChange,
+}: {
+  date: {
+    startDate: Dayjs;
+    endDate: Dayjs;
+  };
+  onChange: (value: { startDate: Dayjs; endDate: Dayjs }) => void;
+}) => {
+  const handleStartDateChange = (newDate: Dayjs) => {
+    onChange({ ...date, startDate: newDate });
+  };
+  const handleEndDateChange = (newDate: Dayjs) => {
+    onChange({ ...date, endDate: newDate });
+  };
+
+  const handleStartKeyDown = (k: AllowedKeys) => {
+    if (k === AllowedKeys.ArrowRight) {
+      // TODO: focus change
+    }
+  };
+
+  const handleEndKeyDown = (k: AllowedKeys) => {
+    if (k === AllowedKeys.ArrowLeft) {
+      // TODO: focus change
+    }
+  };
+
+  const {
+    selected: selectedStart,
+    valid: validStart,
+    handleDateChange: handleStartChange,
+  } = useInput(date.startDate, handleStartDateChange);
+
+  const {
+    selected: selectedEnd,
+    valid: validEnd,
+    handleDateChange: handleEndChange,
+  } = useInput(date.endDate, handleEndDateChange);
+
+  return (
+    <>
+      <NativeInputContainer
+        type="date"
+        valid={validStart}
+        value={`${selectedStart.y}-${selectedStart.m}-${selectedStart.d}`}
+        onChange={handleStartChange}
+      />
+      <NativeInputContainer
+        type="date"
+        valid={validEnd}
+        value={`${selectedEnd.y}-${selectedEnd.m}-${selectedEnd.d}`}
+        onChange={handleEndChange}
+      />
+    </>
   );
 };
