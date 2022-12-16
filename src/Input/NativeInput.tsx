@@ -26,7 +26,7 @@ const NativeInputContainer = memo(styled.input<{ valid: boolean }>`
   }
 `);
 
-export const NativeInput = ({ date, onChange }: Props) => {
+const useInput = (date: Dayjs, onChange?: (date: Dayjs) => void) => {
   const [selected, setSelected] = useState<Selected>({
     y: date.format("YYYY") as Year,
     m: date.format("MM") as Month,
@@ -44,12 +44,21 @@ export const NativeInput = ({ date, onChange }: Props) => {
 
       // TODO: validation for native input
       if (isValidDate(selected)) {
-        onChange(dayjs(`${y}-${m}-${d}`));
+        onChange && onChange(dayjs(`${y}-${m}-${d}`));
       }
     },
     [onChange]
   );
 
+  return {
+    selected,
+    valid,
+    handleDateChange,
+  };
+};
+
+export const NativeInput = ({ date, onChange }: Props) => {
+  const { selected, valid, handleDateChange } = useInput(date, onChange);
   return (
     <NativeInputContainer
       type="date"
