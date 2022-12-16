@@ -22,7 +22,7 @@ const NativeInputContainer = memo(styled.input<{ valid: boolean }>`
     outline: none;
     border-bottom: solid 2px
       ${({ theme, valid }) =>
-        valid ? theme.palette.primary : theme.palette.danger.main};
+        valid ? theme.palette.primary.main : theme.palette.danger.main};
   }
 `);
 

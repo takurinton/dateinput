@@ -16,18 +16,18 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Typography weight="bold">
-        selected: {date.format("YYYY-MM-DD")}
+        selected(myself input): {date.format("YYYY-MM-DD")}
       </Typography>
       <Input date={date} onChange={setDate} />
       <Spacer pt={4} />
       <Typography weight="bold">
-        selected: {nativeInputDate.format("YYYY-MM-DD")}
+        selected(native input): {nativeInputDate.format("YYYY-MM-DD")}
       </Typography>
       <NativeInput date={nativeInputDate} onChange={setNativeInputDate} />
       <Spacer pt={4} />
       <Typography weight="bold">
-        selected: {dateRange.startDate.format("YYYY-MM-DD")} -{" "}
-        {dateRange.endDate.format("YYYY-MM-DD")}
+        selected(myself input range): {dateRange.startDate.format("YYYY-MM-DD")}{" "}
+        - {dateRange.endDate.format("YYYY-MM-DD")}
       </Typography>
       <InputRange date={dateRange} onChange={setDateRange} />
     </ThemeProvider>
