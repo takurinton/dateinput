@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { createTheme, Spacer, ThemeProvider, Typography } from "ingred-ui";
 import { useState } from "react";
 import { Input, InputRange } from "./Input";
-import { NativeInput, NativeInputRange } from "./Input/NativeInput";
+import { NativeInput, NativeInputRange } from "./Native";
 
 function App() {
   const theme = createTheme();

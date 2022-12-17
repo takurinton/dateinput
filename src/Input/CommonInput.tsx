@@ -2,7 +2,7 @@ import { Dayjs } from "dayjs";
 import { Typography } from "ingred-ui";
 import { ChangeEvent, forwardRef, KeyboardEvent, memo, RefObject } from "react";
 import { InputContainer, InputElement } from "./styled";
-import { Selected, YMD } from "./types";
+import { Selected, YMD } from "../types";
 
 type Props = {
   date: Dayjs;

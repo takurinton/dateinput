@@ -2,9 +2,9 @@ import { Dayjs } from "dayjs";
 import { Flex, Spacer, Typography } from "ingred-ui";
 import { FC } from "react";
 import { CommonInput } from "./CommonInput";
-import { AllowedKeys } from "./constants";
+import { AllowedKeys } from "../constants";
 import { useInput } from "./hooks";
-import { Range } from "./types";
+import { Range } from "../types";
 
 type Props = {
   date: Range;
