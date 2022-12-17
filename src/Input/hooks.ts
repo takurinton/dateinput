@@ -7,9 +7,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { Day, Month, Selected, Year, YMD } from "./types";
-import { isValidDate, transformSelected } from "./utils";
-import { AllowedKeys, allowedKeys } from "./constants";
+import { Day, Month, Selected, Year, YMD } from "../types";
+import { isValidDate, transformSelected } from "../utils";
+import { AllowedKeys, allowedKeys } from "../constants";
 
 export const useInput = (
   date: Dayjs,
