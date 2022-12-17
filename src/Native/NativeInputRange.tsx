@@ -1,6 +1,6 @@
 import { Dayjs } from "dayjs";
 import { Typography } from "ingred-ui";
-import { KeyboardEvent, useRef } from "react";
+import { KeyboardEvent, useCallback, useRef } from "react";
 import { AllowedKeys } from "../constants";
 import { useInput } from "./hooks";
 import { NativeInputContainer } from "./styled";
@@ -24,21 +24,27 @@ export const NativeInputRange = ({ date, onChange }: Props) => {
     onChange({ ...date, endDate: newDate });
   };
 
-  const handleStartKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    const k = event.key as AllowedKeys;
-    if (k === AllowedKeys.ArrowRight) {
-      endRef.current?.focus();
-    }
-  };
+  const handleStartKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      const k = event.key as AllowedKeys;
+      if (k === AllowedKeys.ArrowRight) {
+        endRef.current?.focus();
+      }
+    },
+    []
+  );
 
-  const handleEndKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    const k = event.key as AllowedKeys;
-    if (k === AllowedKeys.ArrowLeft) {
-      // I want to focus on the date of the start date, but the focus is on the year
-      // I don't know how to solve this...
-      startRef.current?.focus();
-    }
-  };
+  const handleEndKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      const k = event.key as AllowedKeys;
+      if (k === AllowedKeys.ArrowLeft) {
+        // I want to focus on the date of the start date, but the focus is on the year
+        // I don't know how to solve this...
+        startRef.current?.focus();
+      }
+    },
+    []
+  );
 
   const {
     selected: selectedStart,
