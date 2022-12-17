@@ -2,7 +2,6 @@ import dayjs, { Dayjs } from "dayjs";
 import { useCallback, useMemo, useState } from "react";
 import { Day, Month, Selected, Year } from "../types";
 import { isValidDate } from "../utils";
-
 export const useInput = (date: Dayjs, onChange?: (date: Dayjs) => void) => {
   const [selected, setSelected] = useState<Selected>({
     y: date.format("YYYY") as Year,
@@ -19,12 +18,11 @@ export const useInput = (date: Dayjs, onChange?: (date: Dayjs) => void) => {
 
       setSelected({ y, m, d });
 
-      // TODO: validation for native input
-      if (isValidDate(selected)) {
+      if (valid) {
         onChange && onChange(dayjs(`${y}-${m}-${d}`));
       }
     },
-    [onChange]
+    [onChange, selected]
   );
 
   return {
