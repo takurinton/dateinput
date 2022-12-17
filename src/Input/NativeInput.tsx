@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { isValidDate } from "./utils";
 import { Selected, Year, Month, Day } from "./types";
 import { AllowedKeys } from "./constants";
+import { Typography } from "ingred-ui";
 
 type Props = {
   date: Dayjs;
@@ -70,6 +71,8 @@ export const NativeInput = ({ date, onChange }: Props) => {
   return (
     <NativeInputContainer
       type="date"
+      min="1900-01-01"
+      max="2099-12-31"
       valid={valid}
       value={`${selected.y}-${selected.m}-${selected.d}`}
       onChange={handleDateChange}
@@ -107,6 +110,8 @@ export const NativeInputRange = ({
   const handleEndKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     const k = event.key as AllowedKeys;
     if (k === AllowedKeys.ArrowLeft) {
+      // I want to focus on the date of the start date, but the focus is on the year
+      // I don't know how to solve this...
       startRef.current?.focus();
     }
   };
@@ -128,14 +133,22 @@ export const NativeInputRange = ({
       <NativeInputContainer
         ref={startRef}
         type="date"
+        min="1900-01-01"
+        max="2099-12-31"
         valid={validStart}
         value={`${selectedStart.y}-${selectedStart.m}-${selectedStart.d}`}
         onKeyDown={handleStartKeyDown}
         onChange={handleStartChange}
       />
+      <Typography component="span" color="gray">
+        {" "}
+        -{" "}
+      </Typography>
       <NativeInputContainer
         ref={endRef}
         type="date"
+        min="1900-01-01"
+        max="2099-12-31"
         valid={validEnd}
         value={`${selectedEnd.y}-${selectedEnd.m}-${selectedEnd.d}`}
         onKeyDown={handleEndKeyDown}
