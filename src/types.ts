@@ -2,7 +2,10 @@ import { Dayjs } from "dayjs";
 
 type oneToNine = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type zeroToNine = 0 | oneToNine;
-export type YMD = "y" | "m" | "d";
+export type Y = "y";
+export type M = "m";
+export type D = "d";
+export type YMD = Y | M | D;
 export type Year =
   | `19${zeroToNine}${zeroToNine}`
   | `20${zeroToNine}${zeroToNine}`;

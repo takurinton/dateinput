@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Day, Month, Selected, Year, YMD } from "./types";
+import { D, Day, M, Month, Selected, Y, Year, YMD } from "./types";
 
 // get the last date of the specified month
 const daysInMonth = (year: Year, month: Month): Day =>
@@ -37,25 +37,6 @@ export const isValidDate = (selected: Selected) =>
   isValidMonth(selected) &&
   isValidDay(selected);
 
-type Y = {
-  focusType: "y";
-  value: Year;
-};
-
-type M = {
-  focusType: "m";
-  value: Month;
-};
-
-type D = {
-  focusType: "d";
-  value: Day;
-};
-
-type Args = {
-  selected: Selected;
-} & (Y | M | D);
-
 // for setSelected hooks
 // formatting is interposed when type is `m` or `d`
 // This is part of the user experience
@@ -63,7 +44,22 @@ export const transformSelected = ({
   selected,
   focusType,
   value,
-}: Args): Selected => {
+}: {
+  selected: Selected;
+} & (
+  | {
+      focusType: Y;
+      value: Year;
+    }
+  | {
+      focusType: M;
+      value: Month;
+    }
+  | {
+      focusType: D;
+      value: Day;
+    }
+)): Selected => {
   switch (focusType) {
     case "y":
       return {
