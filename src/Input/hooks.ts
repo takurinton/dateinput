@@ -29,13 +29,17 @@ export const useInput = (
   const valid = useMemo(() => isValidDate(selected), [selected]);
 
   const handleChange = useCallback(
-    (type: YMD) => (event: ChangeEvent<HTMLInputElement>) => {
+    (focusType: YMD) => (event: ChangeEvent<HTMLInputElement>) => {
       if (onChange === undefined) {
         return;
       }
 
       const { value } = event.target;
-      const newValue = transformSelected(selected, type, value);
+      const newValue = transformSelected({
+        selected,
+        focusType,
+        value: value as any,
+      });
       setSelected(newValue);
       if (valid) {
         onChange &&
@@ -69,11 +73,12 @@ export const useInput = (
       // allow up/down event, increment/decrement
       if (k === AllowedKeys.ArrowUp) {
         event.preventDefault();
-        const newValue = transformSelected(
+        const value = String(Number(selected[focusType]) + 1);
+        const newValue = transformSelected({
           selected,
           focusType,
-          String(Number(selected[focusType]) + 1)
-        );
+          value: value as any,
+        });
         setSelected(newValue);
         if (valid) {
           onChange &&
@@ -82,11 +87,12 @@ export const useInput = (
       }
       if (k === AllowedKeys.ArrowDown) {
         event.preventDefault();
-        const newValue = transformSelected(
+        const value = String(Number(selected[focusType]) - 1);
+        const newValue = transformSelected({
           selected,
           focusType,
-          String(Number(selected[focusType]) - 1)
-        );
+          value: value as any,
+        });
         setSelected(newValue);
         if (valid) {
           onChange &&
