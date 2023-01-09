@@ -73,10 +73,11 @@ export const useInput = (
       // allow up/down event, increment/decrement
       if (k === AllowedKeys.ArrowUp) {
         event.preventDefault();
+        const value = String(Number(selected[focusType]) + 1);
         const newValue = transformSelected({
           selected,
           focusType,
-          value: (selected[focusType] + 1) as any,
+          value: value as any,
         });
         setSelected(newValue);
         if (valid) {
