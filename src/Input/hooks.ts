@@ -38,7 +38,7 @@ export const useInput = (
       const newValue = transformSelected({
         selected,
         focusType,
-        value,
+        value: value as any,
       });
       setSelected(newValue);
       if (valid) {
@@ -76,7 +76,7 @@ export const useInput = (
         const newValue = transformSelected({
           selected,
           focusType,
-          value: String(Number(selected[focusType]) + 1),
+          value: (selected[focusType] + 1) as any,
         });
         setSelected(newValue);
         if (valid) {
@@ -86,10 +86,11 @@ export const useInput = (
       }
       if (k === AllowedKeys.ArrowDown) {
         event.preventDefault();
+        const value = String(Number(selected[focusType]) - 1);
         const newValue = transformSelected({
           selected,
           focusType,
-          value: String(Number(selected[focusType]) - 1),
+          value: value as any,
         });
         setSelected(newValue);
         if (valid) {
