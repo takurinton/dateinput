@@ -38,23 +38,33 @@ export const isValidDate = (selected: Selected) =>
   isValidMonth(selected) &&
   isValidDay(selected);
 
-// for value argument of transformSelected
-type ValueType<T> = T extends "y"
-  ? Year
-  : T extends "m"
-  ? Month
-  : T extends "d"
-  ? Day
-  : never;
+type Y = {
+  focusType: "y";
+  value: Year;
+};
+
+type M = {
+  focusType: "m";
+  value: Month;
+};
+
+type D = {
+  focusType: "d";
+  value: Day;
+};
+
+type Args = {
+  selected: Selected;
+} & (Y | M | D);
 
 // for setSelected hooks
 // formatting is interposed when type is `m` or `d`
 // This is part of the user experience
-export const transformSelected = (
-  selected: Selected,
-  focusType: YMD,
-  value: ValueType<typeof focusType>
-): Selected => {
+export const transformSelected = ({
+  selected,
+  focusType,
+  value,
+}: Args): Selected => {
   switch (focusType) {
     case "y":
       return {
