@@ -3,8 +3,8 @@ import { Day, Month, Selected, Year, YMD } from "./types";
 
 // get the last date of the specified month
 // The reason I'm not using dayjs here is that dayjs increments a nonexistent date when given.
-const daysInMonth = (year: Year, month: Month) =>
-  new Date(Number(year), Number(month), 0).getDate();
+const daysInMonth = (year: Year, month: Month): Day =>
+  dayjs(`${year}-${month}-01`).daysInMonth().toString() as Day;
 
 // for year
 // year is 1900-2099
@@ -24,8 +24,8 @@ const isValidMonth = (value: Selected) => {
 // check if the date exists in the specified month
 const isValidDay = (value: Selected) => {
   const day = Number(value.d);
-  const end = daysInMonth(value.y, value.m);
-  return day >= 1 && day <= Number(end);
+  const daysInMonth = dayjs(`${value.y}-${value.m}-01`).daysInMonth();
+  return day >= 1 && day <= Number(daysInMonth);
 };
 
 // validate date format and date
@@ -38,41 +38,50 @@ export const isValidDate = (selected: Selected) =>
   isValidMonth(selected) &&
   isValidDay(selected);
 
+// for value argument of transformSelected
+type ValueType<T> = T extends "y"
+  ? Year
+  : T extends "m"
+  ? Month
+  : T extends "d"
+  ? Day
+  : never;
+
 // for setSelected hooks
 // formatting is interposed when type is `m` or `d`
 // This is part of the user experience
 export const transformSelected = (
   selected: Selected,
-  type: YMD,
-  value: string
+  focusType: YMD,
+  value: ValueType<typeof focusType>
 ): Selected => {
-  switch (type) {
+  switch (focusType) {
     case "y":
       return {
         ...selected,
-        y: value as Year,
+        y: value,
       };
     case "m":
-      const endDate = daysInMonth(selected.y, value as Month);
+      const endDate = daysInMonth(selected.y, value);
       if (Number(selected.d) > Number(endDate)) {
         return {
           ...selected,
-          m: value as Month,
-          d: endDate.toString() as Day,
+          m: value,
+          d: endDate,
         };
       }
-      if (value === "" || isValidMonth({ ...selected, m: value as Month })) {
+      if (isValidMonth({ ...selected, m: value })) {
         return {
           ...selected,
-          m: value as Month,
+          m: value,
         };
       }
       return selected;
     case "d":
-      if (value === "" || isValidDate({ ...selected, d: value as Day })) {
+      if (isValidDate({ ...selected, d: value })) {
         return {
           ...selected,
-          d: value as Day,
+          d: value,
         };
       }
       return selected;
