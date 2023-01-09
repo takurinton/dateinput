@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import { Day, Month, Selected, Year, YMD } from "./types";
 
 // get the last date of the specified month
-// The reason I'm not using dayjs here is that dayjs increments a nonexistent date when given.
 const daysInMonth = (year: Year, month: Month): Day =>
   dayjs(`${year}-${month}-01`).daysInMonth().toString() as Day;
 
